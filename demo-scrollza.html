@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrollza Demo</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+<style>
+body { background-color: #fafafa; line-height: 1.7; }
+article {
+  padding-right: 1rem;
+  max-width: 100%;
+}
+
+.article-title {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding-bottom: 24px;
+}
+
+h1 {
+  margin-bottom: 0;
+  padding: 18px 40px 18px 0;
+  font-size: 1.8rem;
+  background-color: #fafafa;
+}
+.step {
+    min-height: 67vh;
+    margin-bottom: 1em;
+    background-color: #0062cc;
+    -webkit-transition: background-color 250ms ease-in-out;
+    -o-transition: background-color 250ms ease-in-out;
+    transition: background-color 250ms ease-in-out;
+	font-size: 1.6em;
+	color:#fff;
+	padding:10px 20px;
+}
+.is-active {
+	background-color: #1e7e34;
+}
+</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1>Scrollza Demo</h1>
+		<article>
+			<div class="step"><p>Block 1</p></div>
+			<div class="step"><p>Block 2</p></div>
+			<div class="step"><p>Block 3</p></div>
+		</article>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="scrollza.js"></script>
+	<script >
+	$(document).ready(function() {
+		var scroller = new scrollza();
+
+		scroller.setup('.step',true);
+
+		document.addEventListener('active', function (e) {
+		  console.log('active',e);
+		}, false);
+
+		// Слушаем событие
+		document.addEventListener('deactive', function (e) {
+		  console.log('deactive',e);
+		}, false);
+	});
+	</script>
+</body>
+</html>
