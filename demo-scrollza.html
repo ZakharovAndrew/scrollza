@@ -53,7 +53,7 @@ h1 {
 		</article>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="scrollza.js"></script>
 	<script >
 	$(document).ready(function() {
@@ -62,12 +62,11 @@ h1 {
 		scroller.setup('.step',true);
 
 		document.addEventListener('active', function (e) {
-		  console.log('active',e);
+		  console.log('active', e.target.getAttribute('data-scrollza-index'));
 		}, false);
 
-		// Слушаем событие
 		document.addEventListener('deactive', function (e) {
-		  console.log('deactive',e);
+		  console.log('deactive', e.target.getAttribute('data-scrollza-index'));
 		}, false);
 	});
 	</script>

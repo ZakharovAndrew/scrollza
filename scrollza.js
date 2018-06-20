@@ -8,6 +8,8 @@
 	let pageHeight = 0;
 	let debugMode = false;
 	let activeElement = -1;
+	let activeElementPercent = 0;
+	let percent = 0;
 	// make Events
 	let eventActive = document.createEvent('Event');
 	let eventDeactive = document.createEvent('Event');
@@ -18,9 +20,9 @@
         var windowHeight = $(window).outerHeight();
         var bodyHeight = $(document).height();
 
-        var total = (windowScrollTop / (bodyHeight - windowHeight)) * 100;
+        percent = (windowScrollTop / (bodyHeight - windowHeight)) * 100;
 		
-		if (debugMode) console.log('Percent scroll = ',total);
+		if (debugMode) console.log('Percent scroll = ',percent);
 			
 		var windowScrollCenter = windowScrollTop + windowHeight/2;
 		
@@ -38,6 +40,8 @@
 					stepElement[i].classList.add("is-active");
 					if (debugMode) console.log('element ', i, ' is active');
 				}
+				activeElementPercent = ((windowScrollCenter - stepElement[i].offsetTop) / stepElement[i].offsetHeight) * 100;
+				if (debugMode) console.log('activeElementPercent = ',activeElementPercent);
 			}
 		}
 		if (!found) {
@@ -46,9 +50,18 @@
 				stepElement[activeElement].classList.remove("is-active");
 			}
 			activeElement = -1;
+			activeElementPercent = 0;
 		}
 	}
 
+	this.getPercent = function() {
+		return percent;
+	}
+			
+	function indexSteps() {
+		stepElement.forEach(function (el, i) { return el.setAttribute('data-scrollza-index', i); });
+	}
+  
 	this.setup = function(step, debug = true)
 	{
 		// elements
@@ -68,6 +81,7 @@
 		eventDeactive.initEvent('deactive', true, true);
 		
 		// init
+		indexSteps();
 		handleResize();
 		
 		window.onscroll = function() {
