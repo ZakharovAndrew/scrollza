@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrollza Demo</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+<style>
+body { background-color: #fafafa; line-height: 1.7; }
+article {
+	padding-right: 1rem;
+	max-width: 100%;
+}
+
+.article-title {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	padding-bottom: 24px;
+}
+#letters {
+	position:fixed;
+	bottom:15%;
+	left:10%;
+	color:#000;
+	font-size:20vh;
+	font-weight:bold;
+}
+h1 {
+	margin-bottom: 0;
+	padding: 18px 40px 18px 0;
+	font-size: 1.8rem;
+	background-color: #fafafa;
+}
+.step {
+    min-height: 85vh;
+    background-color: #0062cc;
+    -webkit-transition: background-color 250ms ease-in-out;
+    -o-transition: background-color 250ms ease-in-out;
+    transition: background-color 250ms ease-in-out;
+	font-size: 1.6em;
+	color:#fff;
+	padding:10px 20px;
+}
+.is-active {
+	background-color: #1e7e34;
+}
+</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1>Scrollza Demo</h1>
+		<article>
+			<div class="step"><p>Title</p></div>
+			<div class="step"><p>Info Block</p></div>
+			<div class="step"><p>Contact</p></div>
+		</article>
+		<div id="letters">letters</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="scrollza.js"></script>
+	<script >
+	$(document).ready(function() {
+		var scroller = new scrollza();
+		var activeStep;
+		const chars = ['$','%','#','@','&','(',')','=','*','/'];
+		var currentChar;
+		var currentPosition;
+		var timerId;
+		
+		scroller.setup('.step',false);
+		
+
+		document.addEventListener('active', function (e) {
+		  console.log('active', e.target.getAttribute('data-scrollza-index'));
+		  activeStep = e.target.getAttribute('data-scrollza-index');
+		  changeLetters($(e.target).text());
+		}, false);
+
+		document.addEventListener('deactive', function (e) {
+		  console.log('deactive', e.target.getAttribute('data-scrollza-index'));
+		  clearInterval(timerId);
+		}, false);
+		
+		function changeLetters(str) {
+			$('#letters').html(str);
+			currentChar = 0;
+			currentPosition = 0;
+			
+			timerId = setInterval(function() {
+				var strLetters = str.split(""); 
+				strLetters[currentPosition] = chars[getRandomInt(0,chars.length)];
+				currentChar++;
+				if (currentChar>2) {
+					currentChar = 0;
+					currentPosition++;
+				}
+				$('#letters').html(strLetters.join(""));
+				if (currentPosition >= str.length) {
+					clearInterval(timerId);
+					$('#letters').html(str);
+				}
+			}, 15);
+		}
+		
+		function getRandomInt(min, max) {
+			return Math.floor(Math.random() * (max - min)) + min;
+		}
+	});
+	</script>
+</body>
+</html>
